@@ -7,6 +7,4 @@ A tool that allows you to play through a series of words and generate IPA transl
 This project uses **FreeSimpleGUI**
 A virtual environment is recommended
 
-1. ~~~ 
-pip install FreeSimpleGUI
- ~~~ 
+1. ~~~pip install FreeSimpleGUI
