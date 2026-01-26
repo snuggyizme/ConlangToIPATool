@@ -8,7 +8,7 @@ This project uses **FreeSimpleGUI**
 
 A virtual environment is recommended
 
-Install all dependencies:
+### Install all dependencies:
 
     pip install -r requirements.txt
 

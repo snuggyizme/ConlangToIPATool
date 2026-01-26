@@ -12,7 +12,7 @@ def newConfig(): # Create new
     LANG_NAME = input("> ")
     
     print("Longest graph:")
-    MAX_SOUND_LENGTH = input(">")
+    MAX_SOUND_LENGTH = input("> ")
 
     done = False
     SOUNDS = {}
@@ -20,7 +20,10 @@ def newConfig(): # Create new
         sound: list = []
         print("                         Type STOP to stop adding sounds.")
         print("Start of char/ipa pair.  Type the character(s), beginning with a capital:")
-        sound.append(input("> "))
+        soundOrSTOP = input("> ")
+        if soundOrSTOP == "STOP":
+            break
+        sound.append(soundOrSTOP)
 
         print("                         Type the character(s) in lowercase:")
         sound.append(input("> "))
@@ -28,7 +31,7 @@ def newConfig(): # Create new
         print("                         Type the IPA symbol(s):")
         sound.append(input("> "))
 
-        SOUNDS[sound[0] + sound[1]] = sound[3]
+        SOUNDS[sound[0] + sound[1]] = sound[2]
     
     makeConfig(LANG_NAME, MAX_SOUND_LENGTH, SOUNDS)
 
