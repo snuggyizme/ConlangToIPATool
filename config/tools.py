@@ -30,19 +30,46 @@ default = [
     "cWw,ipaw$",
     "cYy,ipaj$",
     "cZz,ipaz$",
-    "thTh,ipaθ$",
-    "thTh,ipað$",
-    "shSh,ipaʃ$",
-    "chCh,ipatʃ$",
-    "ngNg,ipaŋ",
+    "cThth,ipaθ$",
+    "cThth,ipað$",
+    "cShsh,ipaʃ$",
+    "cChch,ipatʃ$",
+    "cNgng,ipaŋ",
     "|English"
 ]
 
-defaultCompiled: str
-
-def compileDefault(input):
+def compileDefault(input: list):
     export: str = ""
     for i in input:
         export += i
     defaultCompiled = export
     return export
+
+defaultCompiled: str = compileDefault(default)
+
+def extractLanguage(input: str):
+    export: dict = {"SOUNDS": {}}
+
+    sections = input.split("|")
+
+    export["MAX_SOUND_LENGTH"] = sections[0]
+    export["LANG_NAME"] = sections[2]
+
+    sounds: list = sections[1].split("$")
+    for sound in sounds:
+        splitSound: str = sound.split(",")
+        character: str = splitSound[0][1:]
+        ipa: str = splitSound[1][3:]
+
+        export["SOUNDS"][character] = ipa
+
+    return export
+
+
+class Language:
+    def __init__(self, config):
+        language = extractLanguage(config)
+        
+        self.name = language["LANG_NAME"]
+        self.maxSoundLength = language["MAX_SOUND_LENGTH"]
+        self.sounds = language["SOUNDS"]
