@@ -1,6 +1,8 @@
 from config import tools as configTools
 from config import make as makeConfig
 
+import pyperclip
+
 import FreeSimpleGUI as fsGUI
 fsGUI.theme("LightGrey1")
 
@@ -31,7 +33,8 @@ def main():
                     break
 
                 if event == "Import (Paste from clipboard)":
-                    pass
+                    clipboardData = pyperclip.paste()
+                    
 
                 if event == "Import (Select File)":
                     pass
