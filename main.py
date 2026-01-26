@@ -7,7 +7,7 @@ import json
 import pyperclip
 
 import FreeSimpleGUI as fsGUI
-fsGUI.theme("LightGrey1")
+fsGUI.theme("LightGrey3")
 
 #__/\\\\\\\\\\\__/\\\\\\\\\\\\\_______/\\\\\\\\\__________________        
 # _\/////\\\///__\/\\\/////////\\\___/\\\\\\\\\\\\\________________       
@@ -22,15 +22,19 @@ fsGUI.theme("LightGrey1")
 langs: list = []
 
 def createHomeLayout():
-    return [[fsGUI.Text("IPAt")],
+    return [[fsGUI.Text("IPAt", font=("Arial", 60))], # Home
             [fsGUI.Button("Import/Create a language config"),
              fsGUI.Button("Create IPA for words"),
              fsGUI.Button("Close")]]
 
-def createIoCLayout():
+def createIoCLayout():            # Import or Create
     return [[fsGUI.Button("Import (Paste from clipboard)")],
-            [fsGUI.Button("Import (Select File)")],
             [fsGUI.Button("Make new")],
+            [fsGUI.Button("<- Back")]]
+
+def createSLoCWLayout():          # Select Languae or Create Words
+    return [[fsGUI.Text("Select Language or Create Words")],
+            [fsGUI.Button("Select Language"), fsGUI.Button("Create Words")],
             [fsGUI.Button("<- Back")]]
 
 def main():
@@ -57,9 +61,6 @@ def main():
                     except Exception as x:
                        fsGUI.popup(f"Error importing config from clipboard: {x}", no_titlebar=True, keep_on_top=True, grab_anywhere=True)
                 
-
-                if IoCevent == "Import (Select File)":
-                    pass
                 
                 if IoCevent == "Make new":
                     makeConfig.newConfig()
@@ -77,3 +78,4 @@ def testLine():
 
 if __name__ == "__main__":
     main()
+

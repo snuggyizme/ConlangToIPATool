@@ -1,5 +1,5 @@
 import FreeSimpleGUI as fsGUI
-fsGUI.theme("LightGrey1")
+fsGUI.theme("LightGrey3")
 
 from . import tools as configTools
 
