@@ -37,14 +37,10 @@ default = [
     "|English"
 ]
 
-def compileDefault(input: list):
-    export: str = ""
-    for i in input:
-        export += i
-    defaultCompiled = export
-    return export
+def compileList(input: list):
+    return "".join(input)
 
-defaultCompiled: str = compileDefault(default)
+defaultCompiled: str = compileList(default)
 
 def extractLanguage(input: str):
     export: dict = {"SOUNDS": {}}

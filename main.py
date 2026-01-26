@@ -49,7 +49,7 @@ def main():
                     pass
                 
                 if IoCevent == "Make new":
-                    pass
+                    makeConfig.newConfig()
 
                 if IoCevent == fsGUI.WIN_CLOSED or IoCevent == "<- Back":
                     IoCwindow.close()
@@ -58,7 +58,7 @@ def main():
     # ---- END Home ----
 
 def testLine():
-    # print(configTools.compileDefault(configTools.default))           #  (Works)
+    # print(configTools.compileList(configTools.default))           #  (Works)
     # print(configTools.extractLanguage(configTools.defaultCompiled))  #  (Works)
     pass
 
