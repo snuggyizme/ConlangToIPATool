@@ -3,10 +3,11 @@ import json
 
 from config import tools as configTools
 
-dataFile = Path.home() / ".ipatlanguages.json"
+dataFile = Path.home() / "snuggyizme" / ".ipatlanguages.json"
 
 def loadData():
     if not dataFile.exists():
+        dataFile.parent.mkdir(parents=True, exist_ok=True)
         defaultData = {
             "English": configTools.defaultCompiled
         }
