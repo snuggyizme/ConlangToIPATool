@@ -26,23 +26,23 @@ LANGS: dict = data.langs
 # LAYOUTS
 # ----------------------------------------------
 
-def createHomeLayout():           # Home
+def createHomeLayout():                             # Home
     return [[fsGUI.Text("IPAt", font=("Arial", 60))], 
             [fsGUI.Button("Import/Create a language config"),
              fsGUI.Button("Create IPA for words"),
              fsGUI.Button("Close")]]
 
-def createIoCLayout():            # Import or Create
+def createIoCLayout():                              # Import or Create
     return [[fsGUI.Button("Import (Paste from clipboard)")],
             [fsGUI.Button("Make new")],
             [fsGUI.Button("<- Back")]]
 
-def createSLoCWLayout():          # Select Languae or Create Words
+def createSLoCWLayout():                            # Select Languae or Create Words
     return [[fsGUI.Text("Select Language or Create Words")],
             [fsGUI.Button("Select Language"), fsGUI.Button("Create Words")],
             [fsGUI.Button("<- Back")]]
 
-def createSelectLangLayout():     # Select / Inspect / Delete Language
+def createSelectLangLayout():                       # Select / Inspect / Delete Language
     langButtons = []
     for lang in LANGS.values():
         langButtons.append([
@@ -52,6 +52,18 @@ def createSelectLangLayout():     # Select / Inspect / Delete Language
             fsGUI.Button("Inspect", key=f"inspect_{configTools.extractLanguage(lang)['LANG_NAME']}"),
             fsGUI.Button("Delete", key=f"delete_{configTools.extractLanguage(lang)['LANG_NAME']}")])
     return [[fsGUI.Text("Select Language")]] + langButtons + [[fsGUI.Button("<- Back")]]
+
+def wordScrollerLayout(mgl: int):        # Word Scroller
+    export = [[
+        fsGUI.Text(key="-LEFT-"), fsGUI.Push(),
+        fsGUI.Text(key="-CURRENT-"), fsGUI.Push(),
+        fsGUI.Text(key="-RIGHT-"),
+    ],
+    [], # Placeholder for graphs
+    [fsGUI.Button("Add words to playlist"), fsGUI.Button("<- Back")]]
+    for i in range(mgl):
+        export.append([fsGUI.Text(key=f"-GRAPH_{i}-")])
+        # not done! went to work on readme!
 
 # ----------------------------------------------
 
@@ -66,6 +78,8 @@ def wordScroller(wordList: list, maxGraphLength: int):
             pass
     
     return FINISHED_WORDS
+
+# ----------------------------------------------
 
 def main():
     window = fsGUI.Window("IPAt", createHomeLayout(), no_titlebar=True, grab_anywhere=True, keep_on_top=True)

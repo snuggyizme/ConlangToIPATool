@@ -11,3 +11,7 @@ A virtual environment is recommended
 ### Install all dependencies:
 
     pip install -r requirements.txt
+
+## Usage
+
+To get started with IPAt, you need to select a language. If you have a conlang, head to
