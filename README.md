@@ -1,6 +1,6 @@
-# ConlangToIPATool
+# IPAt
 
-A tool that allows you to play through a series of words and generate IPA translations with a custom ruleset for your constructed language
+IPAt is a GUI tool for batch-generating IPA transcriptions of wordlists using custom rulesets.
 
 ## Installation
 
