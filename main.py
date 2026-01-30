@@ -26,13 +26,15 @@ FINISHED_WORDS: list = []
 PLAYLIST: list = []
 SELECTED_LANGUAGE = None
 
-VERSION = 0.32
-
 # VERSION
 # ----------------------------------------------
-def updateAppDataVersion():
+VERSION = 0.34
+
+def startUp():
     appData = data.loadData(file="appdata")
     appData["version"] = VERSION
+    SELECTED_LANGUAGE = appData["lastLanguage"]
+
     data.saveData(appData, file="appdata")
 
 # ----------------------------------------------
@@ -68,7 +70,7 @@ def createSelectLangLayout():                       # Select / Inspect / Delete 
 
     return [[fsGUI.Text("Select Language")]] + langButtons + [[fsGUI.Button("<- Back")]]
 
-def createWordScrollerLayout(mgl: int):        # Word Scroller
+def createWordScrollerLayout(mgl: int):             # Word Scroller
     export = [[
         fsGUI.Text(key="-LEFT-"), fsGUI.Push(),
         fsGUI.Text(key="-CURRENT-"), fsGUI.Push(),
@@ -82,18 +84,19 @@ def createWordScrollerLayout(mgl: int):        # Word Scroller
 
     return export
 
-def createPastePlaylistLayout():               # Paste Playlist
+def createPastePlaylistLayout():                    # Paste Playlist
     return [[fsGUI.Text("Paste words to be added to the playlist, seperated by newlines:")],
             [fsGUI.Multiline(size=(40, 10), key="-PLAYLIST_INPUT-")],
             [fsGUI.Button("Add to Playlist"), fsGUI.Push(), fsGUI.Button("<- Back")]]
 # ----------------------------------------------
 
-# FUNCS FOR MAIN APP
+# MAIN APP
 # ----------------------------------------------
 
 def wordScroller(wordList: list, maxGraphLength: int):
     mainWindow = fsGUI.Window("IPAt", createWordScrollerLayout(maxGraphLength), no_titlebar=True, grab_anywhere=True, keep_on_top=True)
 
+    # ----   Main App Window   ----
     while True:
         event, values = mainWindow.read()
 
@@ -107,9 +110,11 @@ def wordScroller(wordList: list, maxGraphLength: int):
             # ----   Paste Playlist   ----
             while True:
                 clplEvent, clplValues = clplWindow.read()
+
                 if clplEvent == fsGUI.WIN_CLOSED or clplEvent == "<- Back":
                     clplWindow.close()
                     break
+
                 if clplEvent == "Add to Playlist":
                     PLAYLIST.extend(clplValues["-PLAYLIST_INPUT-"].split("\n"))
                     clplWindow.close()
@@ -121,6 +126,8 @@ def wordScroller(wordList: list, maxGraphLength: int):
                 left = word[0:i]
                 current = word[i]
                 right = word[i+1:]
+    
+    # ---- END Main App Window ----
 
     
         
@@ -130,7 +137,7 @@ def wordScroller(wordList: list, maxGraphLength: int):
 # ----------------------------------------------
 
 def main():
-    updateAppDataVersion()
+    startUp()
 
     if not "English" in LANGS:
         LANGS["English"] = configTools.defaultCompiled
@@ -192,7 +199,7 @@ def main():
                     # ----   Select Language   ----
                     while True:
                         event, values = slWindow.read()
-                        if event == fsGUI.WIN_CLOSED or event == "<- Back": # Does redundant check, but whatever, copy paste go brrr
+                        if event == fsGUI.WIN_CLOSED or event == "<- Back": # I keep adding this redundant check, but whatever, copy paste go brrr
                             slWindow.close()
                             break
                         
@@ -238,4 +245,3 @@ def testLine():
 
 if __name__ == "__main__":
     main()
-

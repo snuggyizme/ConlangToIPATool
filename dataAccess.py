@@ -2,7 +2,6 @@ from pathlib import Path
 import json
 
 from config import tools as configTools
-import main
 
 langdataFile = Path.home() / "snuggyizme" / ".ipatlanguages.json"
 appdataFile = Path.home() / "snuggyizme" / ".ipatappdata.json"
@@ -22,7 +21,7 @@ def loadData(file="langs") -> dict:
             langData = json.load(f)
 
     if not appdataFile.exists():
-        defaultAppData = {"version": main.VERSION}
+        defaultAppData = {"version": 0, "lastLanguage": "English"}
         saveData(defaultAppData, file="appdata")
 
     with open(appdataFile, "r", encoding="utf-8") as f:
@@ -40,6 +39,6 @@ def saveData(data: dict, file="langs"):
     elif file == "appdata":
         with open(appdataFile, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
-    
+
 langs = loadData()
 print(langs)
