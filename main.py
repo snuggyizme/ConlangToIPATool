@@ -22,6 +22,20 @@ fsGUI.theme("LightGrey3")
 #        _\///////////__\///______________\///________\///______\/////____
 
 LANGS: dict = data.langs
+FINISHED_WORDS: list = []
+PLAYLIST: list = []
+SELECTED_LANGUAGE = None
+
+VERSION = 0.32
+
+# VERSION
+# ----------------------------------------------
+def updateAppDataVersion():
+    appData = data.loadData(file="appdata")
+    appData["version"] = VERSION
+    data.saveData(appData, file="appdata")
+
+# ----------------------------------------------
 
 # LAYOUTS
 # ----------------------------------------------
@@ -51,9 +65,10 @@ def createSelectLangLayout():                       # Select / Inspect / Delete 
             fsGUI.Button("Select", key=f"select_{configTools.extractLanguage(lang)['LANG_NAME']}"),
             fsGUI.Button("Inspect", key=f"inspect_{configTools.extractLanguage(lang)['LANG_NAME']}"),
             fsGUI.Button("Delete", key=f"delete_{configTools.extractLanguage(lang)['LANG_NAME']}")])
+
     return [[fsGUI.Text("Select Language")]] + langButtons + [[fsGUI.Button("<- Back")]]
 
-def wordScrollerLayout(mgl: int):        # Word Scroller
+def createWordScrollerLayout(mgl: int):        # Word Scroller
     export = [[
         fsGUI.Text(key="-LEFT-"), fsGUI.Push(),
         fsGUI.Text(key="-CURRENT-"), fsGUI.Push(),
@@ -61,27 +76,66 @@ def wordScrollerLayout(mgl: int):        # Word Scroller
     ],
     [], # Placeholder for graphs
     [fsGUI.Button("Add words to playlist"), fsGUI.Button("<- Back")]]
-    for i in range(mgl):
-        export.append([fsGUI.Text(key=f"-GRAPH_{i}-")])
-        # not done! went to work on readme!
 
+    for i in range(mgl):
+        export[1].append(fsGUI.Text(key=f"-GRAPH_{i}-"))
+
+    return export
+
+def createPastePlaylistLayout():               # Paste Playlist
+    return [[fsGUI.Text("Paste words to be added to the playlist, seperated by newlines:")],
+            [fsGUI.Multiline(size=(40, 10), key="-PLAYLIST_INPUT-")],
+            [fsGUI.Button("Add to Playlist"), fsGUI.Push(), fsGUI.Button("<- Back")]]
 # ----------------------------------------------
 
 # FUNCS FOR MAIN APP
 # ----------------------------------------------
 
 def wordScroller(wordList: list, maxGraphLength: int):
-    FINISHED_WORDS: list = []
+    mainWindow = fsGUI.Window("IPAt", createWordScrollerLayout(maxGraphLength), no_titlebar=True, grab_anywhere=True, keep_on_top=True)
 
-    for word in wordList:
-        for char in word:
-            pass
+    while True:
+        event, values = mainWindow.read()
+
+        if event == fsGUI.WIN_CLOSED or event == "<- Back":
+            mainWindow.close()
+            break
+
+        if event == "Add words to playlist":
+            clplWindow = fsGUI.Window("IPAt", createPastePlaylistLayout(), no_titlebar=True, grab_anywhere=True, keep_on_top=True)
+            
+            # ----   Paste Playlist   ----
+            while True:
+                clplEvent, clplValues = clplWindow.read()
+                if clplEvent == fsGUI.WIN_CLOSED or clplEvent == "<- Back":
+                    clplWindow.close()
+                    break
+                if clplEvent == "Add to Playlist":
+                    PLAYLIST.extend(clplValues["-PLAYLIST_INPUT-"].split("\n"))
+                    clplWindow.close()
+                    break
+            # ---- END Paste Playlist ----
+
+        for word in wordList:
+            for i in range(len(word)):
+                left = word[0:i]
+                current = word[i]
+                right = word[i+1:]
+
+    
+        
     
     return FINISHED_WORDS
 
 # ----------------------------------------------
 
 def main():
+    updateAppDataVersion()
+
+    if not "English" in LANGS:
+        LANGS["English"] = configTools.defaultCompiled
+        data.saveData(LANGS)
+
     window = fsGUI.Window("IPAt", createHomeLayout(), no_titlebar=True, grab_anywhere=True, keep_on_top=True)
 
     # ----   Home   ----
