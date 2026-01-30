@@ -39,4 +39,4 @@ Return to the homepage and select *'Create IPA for words'*, and then *'Select La
 
 ![](https://raw.githubusercontent.com/snuggyizme/IPAt/main/img/7.png)
 
-
+![Alt: The 'Select Language' menu showing two languages: English and 'Example Language'](https://raw.githubusercontent.com/snuggyizme/IPAt/main/img/8.png)
