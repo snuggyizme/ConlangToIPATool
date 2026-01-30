@@ -273,7 +273,9 @@ def main():
                     # ---- END Select Language ----
                 
                 if SLoCWevent == "Create Words":
-                    pass
+                    wordScroller(int(configTools.extractLanguage(SELECTED_LANGUAGE)["MAX_SOUND_LENGTH"]))
+                    SLoCWwindow.close()
+                    window.close()
 
                 if SLoCWevent == fsGUI.WIN_CLOSED or SLoCWevent == "<- Back":
                     SLoCWwindow.close()
