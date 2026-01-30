@@ -26,8 +26,8 @@ LANGS: dict = data.langs
 # LAYOUTS
 # ----------------------------------------------
 
-def createHomeLayout():                             # Home
-    return [[fsGUI.Text("IPAt", font=("Arial", 60))], 
+def createHomeLayout():                             # Home 
+    return [[fsGUI.Text("IPAt", font=("Arial", 60)), fsGUI.Push(), fsGUI.Text(data.loadData(file="appdata")["version"])],
             [fsGUI.Button("Import/Create a language config"),
              fsGUI.Button("Create IPA for words"),
              fsGUI.Button("Close")]]
