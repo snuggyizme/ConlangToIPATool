@@ -109,6 +109,16 @@ def createPastePlaylistLayout():                    # Paste Playlist
             [fsGUI.Multiline(size=(40, 10), key="-PLAYLIST_INPUT-")],
             [fsGUI.Button("Add to Playlist"), fsGUI.Push(), fsGUI.Button("<- Back")]]
 
+def createSelectSoundLayout(soundOptions):                      # Select Sound
+    t = [[fsGUI.Text("Sound Select:")]]
+    b = [[fsGUI.Button("<- Back"), fsGUI.Push()]]
+
+    c = []
+    for i in soundOptions:
+        c.append(fsGUI.Button(i, key=f"selectsound_{i}"))
+
+    return uiArray(t, b, c)
+
 # ----------------------------------------------
 
 # MAIN APP
@@ -142,9 +152,9 @@ def wordScroller(maxGraphLength: int):
                     break
             # ---- END Paste Playlist ----
 
-        word = PLAYLIST[0]
-        FINISHED_WORDS.append("")
-        for i in range(len(word)):
+        word = PLAYLIST[0]                                          # Get first word
+        FINISHED_WORDS.append("")                                   # Prepare space
+        for i in range(len(word)):                                  # For every character in the word:
             while True:
                 left = word[0:i]
                 current = word[i]
