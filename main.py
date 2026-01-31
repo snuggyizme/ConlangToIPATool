@@ -4,7 +4,7 @@ from config import make as makeConfig
 import dataAccess as data
 
 from pathlib import Path
-import json
+import math
 
 import pyperclip
 
@@ -28,7 +28,7 @@ SELECTED_LANGUAGE = None
 
 # VERSION
 # ----------------------------------------------
-VERSION = 0.36
+VERSION = 0.38
 
 def startUp():
     appData = data.loadData(file="appdata")
@@ -45,6 +45,22 @@ def startUp():
 
 # LAYOUTS
 # ----------------------------------------------
+
+def uiArray(top, bottom, content):                  # Helper function
+    columns = math.ceil(len(content) / 3)
+    export = []
+    for i in range(columns):
+        u = i * 3
+        row = []
+        for c in range(3):
+            if u + c < len(content):
+                row.append(content[u+c])
+            else:
+                row.append(fsGUI.Push())
+
+        export.append(row)
+
+    return top + export + bottom
 
 def createHomeLayout():                             # Home 
     return [[fsGUI.Text("IPAt", font=("Arial", 60)), fsGUI.Push(), fsGUI.Text(data.loadData(file="appdata")["version"])],
@@ -75,23 +91,24 @@ def createSelectLangLayout():                       # Select / Inspect / Delete 
     return [[fsGUI.Text("Select Language")]] + langButtons + [[fsGUI.Button("<- Back")]]
 
 def createWordScrollerLayout(mgl: int):             # Word Scroller
-    export = [[
+    t = [[
         fsGUI.Text(key="-LEFT-"), fsGUI.Push(),
         fsGUI.Text(key="-CURRENT-"), fsGUI.Push(),
         fsGUI.Text(key="-RIGHT-"),
-    ],
-    [], # Placeholder for graphs
-    [fsGUI.Button("Add words to playlist"), fsGUI.Button("<- Back")]]
+    ]]
+    b = [[fsGUI.Button("Add words to playlist"), fsGUI.Button("<- Back")]]
 
+    c = []
     for i in range(mgl):
-        export[1].append(fsGUI.Text(key=f"-GRAPH_{i}-"))
+        c.append(fsGUI.Button(f"{i+1}", key=f"-GRAPH_{i+1}-", disabled=True))
 
-    return export
+    return uiArray(t, b, c)
 
 def createPastePlaylistLayout():                    # Paste Playlist
     return [[fsGUI.Text("Paste words to be added to the playlist, seperated by newlines:")],
             [fsGUI.Multiline(size=(40, 10), key="-PLAYLIST_INPUT-")],
             [fsGUI.Button("Add to Playlist"), fsGUI.Push(), fsGUI.Button("<- Back")]]
+
 # ----------------------------------------------
 
 # MAIN APP
